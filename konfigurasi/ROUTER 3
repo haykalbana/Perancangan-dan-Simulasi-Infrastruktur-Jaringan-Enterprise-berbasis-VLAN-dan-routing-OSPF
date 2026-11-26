@@ -12,3 +12,15 @@ interface g0/1
 ip address 10.0.13.2 255.255.255.252
 no shutdown
 exit
+
+KONFIGURASI DHCP
+
+enable
+configure terminal
+
+ip dhcp excluded-address 192.168.70.1 192.168.70.10
+
+ip dhcp pool
+network 192.168.70.0 255.255.255.0
+default-router 192.168.70.1
+exit
