@@ -1,0 +1,20 @@
+SW2:
+
+enable
+configure terminal
+
+hostname SW2-CABANG-A
+
+vlan 60
+name CABANG_A
+exit
+
+interface fa0/1
+switchport mode access
+switchport access vlan 60
+exit
+
+interface fa0/2
+switchport mode access
+switchport access vlan 60
+exit
