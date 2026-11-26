@@ -1,0 +1,15 @@
+SW3:
+
+enable
+configure terminal
+
+hostname SW3-CABANG-B
+
+vlan 70
+name CABANG_B
+exit
+
+interface range fa0/1-3
+switchport mode access
+switchport access vlan 70
+exit
