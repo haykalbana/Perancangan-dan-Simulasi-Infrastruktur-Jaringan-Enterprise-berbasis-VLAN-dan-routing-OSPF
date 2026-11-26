@@ -24,3 +24,15 @@ ip dhcp pool
 network 192.168.60.0 255.255.255.0
 default-router 192.168.60.1
 exit
+
+KONFIGURASI OSPF
+
+enable
+configure terminal
+
+router ospf 1
+router-id 2.2.2.2
+
+network 192.168.60.0 0.0.0.255 area 0
+network 10.0.12.0 0.0.0.3 area 0
+
