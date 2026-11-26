@@ -3,10 +3,10 @@ SW2:
 enable
 configure terminal
 
-hostname SW2-CABANG-A
+hostname SW2
 
 vlan 60
-name CABANG_A
+name JASINGA
 exit
 
 interface fa0/1
