@@ -36,3 +36,6 @@ router-id 2.2.2.2
 network 192.168.60.0 0.0.0.255 area 0
 network 10.0.12.0 0.0.0.3 area 0
 
+LANGKAH TERAKHIR ADALAH TES PING
+
+
