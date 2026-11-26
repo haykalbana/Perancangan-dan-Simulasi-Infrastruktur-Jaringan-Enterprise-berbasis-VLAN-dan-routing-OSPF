@@ -95,3 +95,6 @@ network 192.168.50.0 0.0.0.255 area 0
 
 network 10.0.12.0 0.0.0.3 area 0
 network 10.0.13.0 0.0.0.3 area 0
+
+LANGKAH TERAKHIR ADALAH TES PING
+
