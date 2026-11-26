@@ -3,26 +3,26 @@ SW1:
 enable
 configure terminal
 
-hostname SW1-HQ
+hostname SW1
 
 vlan 10
-name MANAGEMENT
+name CEMPLANG
 exit
 
 vlan 20
-name FINANCE
+name CIBATOK
 exit
 
 vlan 30
-name HRD
+name LW
 exit
 
 vlan 40
-name IT
+name CIMANGGU
 exit
 
 vlan 50
-name SERVER
+name SADENG
 exit
 
 interface fa0/1
