@@ -3,10 +3,10 @@ SW3:
 enable
 configure terminal
 
-hostname SW3-CABANG-B
+hostname SW3
 
 vlan 70
-name CABANG_B
+name CIGUDEG
 exit
 
 interface range fa0/1-3
