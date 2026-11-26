@@ -24,3 +24,17 @@ ip dhcp pool
 network 192.168.70.0 255.255.255.0
 default-router 192.168.70.1
 exit
+
+KONFIGURASI OSPF
+
+enable
+configure terminal
+
+router ospf 1
+router-id 3.3.3.3
+
+network 192.168.70.0 0.0.0.255 area 0
+network 10.0.13.0 0.0.0.3 area 0
+
+
+LANGKAH TERAKHIR ADALAH TES PING
