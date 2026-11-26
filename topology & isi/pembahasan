@@ -1,1 +1,305 @@
+PERANCANGAN DAN SIMULASI INFRASTRUKTUR JARINGAN ENTERPRISE BERBASIS VLAN DAN ROUTING OSPF
+Tugas Project Cisco
+
+Nama: Muhammad Haykal Albanna
+Kelas: XI TKJ
+
+Project ini menggunakan simulasi perusahaan yang memiliki satu kantor pusat (Headquarters) dan dua kantor cabang. Jaringan dipisahkan menggunakan VLAN dan dihubungkan menggunakan routing dinamis OSPF.
+Project ini juga dilengkapi dengan tabel IP Address, topologi, konfigurasi CLI berurutan, pengujian, dan laporan BAB I–V.
+
+1. Tujuan project
+
+1.	Membuat desain jaringan enterprise menggunakan Cisco Packet Tracer.
+2.	Membagi jaringan berdasarkan divisi menggunakan VLAN.
+3.	Menghubungkan beberapa VLAN menggunakan Inter-VLAN Routing.
+4.	Menghubungkan tiga router menggunakan OSPF.
+5.	Mengatur alamat IP menggunakan DHCP.
+6.	Menguji konektivitas jaringan kantor pusat dan cabang.
+
+2. Perangkat yang digunakan
+Perangkat	Model	Jumlah
+Router	Cisco 2911	3
+Switch	Cisco 2960	3
+PC	PC-PT	7
+Server	Server-PT	1
+
+3. Pembagian VLAN dan IP Address
+
+VLAN	Nama divisi	Network	Gateway
+10	Management	192.168.10.0/24	192.168.10.1
+20	Finance	192.168.20.0/24	192.168.20.1
+30	HRD	192.168.30.0/24	192.168.30.1
+40	IT	192.168.40.0/24	192.168.40.1
+50	Server	192.168.50.0/24	192.168.50.1
+60	Cabang A	192.168.60.0/24	192.168.60.1
+70	Cabang B	192.168.70.0/24	192.168.70.1
+IP Address antarrouter
+Router	Interface	IP Address
+R1	G0/1	10.0.12.1/30
+R2	G0/1	10.0.12.2/30
+R1	G0/2	10.0.13.1/30
+R3	G0/1	10.0.13.2/30
+Server menggunakan IP statis 192.168.50.10/24, gateway 192.168.50.1.
+
+4. Konfigurasi perangkat Cisco
+Ikuti urutan berikut agar konfigurasi tidak tertukar.
+A. Konfigurasi Switch SW1 (kantor pusat)
+Hubungkan:
+•	Fa0/1 ke R1.
+•	Fa0/2 ke PC Management.
+•	Fa0/3 ke PC Finance.
+•	Fa0/4 ke PC HRD.
+•	Fa0/5 ke PC IT.
+•	Fa0/6 ke Server.
+
+B. Konfigurasi Switch SW2 (cabang A)
+•	Fa0/1 ke R2 G0/0.
+•	Fa0/2 ke PC cabang A.
+
+C. Konfigurasi Switch SW3 (cabang B)
+•	Fa0/1 ke R3 G0/0.
+•	Fa0/2 dan Fa0/3 ke PC cabang B.
+
+D. Konfigurasi Router R1 (kantor pusat)
+R1 berfungsi sebagai router utama yang menghubungkan seluruh VLAN dan kedua kantor cabang.
+
+E. Konfigurasi Router R2 (cabang A)
+
+F. Konfigurasi Router R3 (cabang B)
+
+6. Konfigurasi DHCP Server pada router
+DHCP digunakan agar setiap komputer mendapatkan alamat IP secara otomatis.
+A. DHCP pada R1
+
+B. DHCP pada R2
+
+C. DHCP pada R3
+
+7. Konfigurasi Routing OSPF
+OSPF merupakan protokol routing dinamis yang digunakan untuk menghubungkan jaringan R1, R2, dan R3.
+Semua router menggunakan OSPF Area 0.
+A. Konfigurasi OSPF pada R1
+
+B. Konfigurasi OSPF pada R2
+
+C. Konfigurasi OSPF pada R3
+
+Cara kerja OSPF:
+•	R1 mengenali R2 dan R3 sebagai tetangga.
+•	R2 mengirimkan informasi jaringan cabang A kepada R1.
+•	R3 mengirimkan informasi jaringan cabang B kepada R1.
+•	R1 membagikan informasi jaringan kantor pusat kepada kedua cabang.
+Hasil yang diharapkan adalah seluruh jaringan dapat saling berkomunikasi.
+
+8. Konfigurasi Server
+Klik Server-PT, lalu masuk ke Desktop → IP Configuration.
+Parameter	Pengaturan
+IP Address	192.168.50.10
+Subnet Mask	255.255.255.0
+Default Gateway	192.168.50.1
+DNS Server	192.168.50.10
+Jika ingin mengaktifkan layanan web:
+1.	Klik Server.
+2.	Masuk ke Services.
+3.	Pilih HTTP.
+4.	Ubah menjadi ON.
+Server ini menggunakan alamat IP statis dan berada pada VLAN 50
+
+9. Pengaturan IP pada komputer
+Semua PC diatur menggunakan DHCP.
+Langkah-langkah:
+1.	Klik PC.
+2.	Pilih Desktop.
+3.	Klik IP Configuration.
+4.	Pilih DHCP.
+5.	Tunggu sampai IP Address muncul.
+Contoh hasil yang diharapkan:
+PC	VLAN	IP yang diperoleh
+PC1	10	192.168.10.x
+PC2	20	192.168.20.x
+PC3	30	192.168.30.x
+PC4	40	192.168.40.x
+PC Cabang A	60	192.168.60.x
+PC Cabang B1	70	192.168.70.x
+PC Cabang B2	70	192.168.70.x
+Huruf x menunjukkan alamat yang diberikan secara otomatis oleh DHCP.
+
+10. Pengujian jaringan
+Setelah semua konfigurasi selesai, lakukan pengujian berikut.
+A. Pengujian VLAN
+
+Pada SW1 ketik:
+show vlan brief
+Pastikan VLAN 10, 20, 30, 40, dan 50 muncul
+B. Pengujian trunk
+
+Pada SW1:
+show interfaces trunk
+Pastikan port Fa0/1 berstatus trunk
+
+C. Pengujian DHCP
+Pada setiap PC buka Command Prompt:
+ipconfig
+Pastikan masing-masing komputer mendapatkan IP sesuai VLAN.
+
+D. Pengujian OSPF
+Pada R1, R2, dan R3:
+show ip ospf neighbor
+show ip route
+show ip protocols
+Pada R1 seharusnya terlihat dua tetangga OSPF, yaitu R2 dan R3.
+Pada R2 dan R3 seharusnya terlihat satu tetangga OSPF, yaitu R1.
+
+E. Pengujian ping
+Dari PC Management:
+ping 192.168.10.1
+ping 192.168.50.10
+ping 192.168.60.1
+ping 192.168.70.1
+Hasil yang diharapkan: seluruh ping berhasil.
+
+F. Tabel hasil pengujian
+No.	Pengujian	Target
+1	PC Management ke gateway	Berhasil
+2	PC Finance ke gateway	Berhasil
+3	PC HRD ke gateway	Berhasil
+4	PC IT ke gateway	Berhasil
+5	PC Cabang A ke server	Berhasil
+6	PC Cabang B ke server	Berhasil
+7	OSPF R1 ke R2	Terhubung
+8	OSPF R1 ke R3	Terhubung
+9	Komunikasi Management ke Cabang A	Berhasil
+Catat hasil aktual setelah simulasi dilakukan. Ping pertama terkadang gagal karena proses ARP, jadi ulangi ping jika diperlukan.
+
+LAPORAN PROJECT CISCO
+PERANCANGAN DAN SIMULASI INFRASTRUKTUR JARINGAN ENTERPRISE BERBASIS VLAN DAN ROUTING OSPF
+Disusun untuk memenuhi tugas mata pelajaran Jaringan Komputer
+Nama: MUHAMMAD HAYAL ALBANNA
+Kelas: XI TKJ
+Tahun: 2026.
+
+BAB I – PENDAHULUAN
+
+1.1 Latar Belakang
+Perkembangan teknologi informasi membuat kebutuhan jaringan komputer semakin meningkat. Perusahaan membutuhkan jaringan yang dapat menghubungkan berbagai bagian organisasi secara cepat, terstruktur, dan efisien.
+Salah satu teknologi yang dapat digunakan adalah Virtual Local Area Network (VLAN), yang berfungsi membagi jaringan berdasarkan kelompok atau divisi. Selain itu, diperlukan routing agar beberapa jaringan berbeda dapat saling berkomunikasi.
+Open Shortest Path First (OSPF) merupakan protokol routing dinamis yang dapat digunakan untuk menghubungkan beberapa router secara otomatis.
+Berdasarkan kebutuhan tersebut, dibuat project perancangan dan simulasi infrastruktur jaringan enterprise berbasis VLAN dan routing OSPF menggunakan Cisco Packet Tracer.
+
+1.2 Rumusan Masalah
+1.	Bagaimana merancang jaringan enterprise menggunakan Cisco Packet Tracer?
+2.	Bagaimana melakukan segmentasi jaringan menggunakan VLAN?
+3.	Bagaimana menghubungkan beberapa jaringan menggunakan routing OSPF?
+4.	Bagaimana melakukan pengujian konektivitas antarjaringan?
+
+1.3 Tujuan
+1.	Memahami perancangan jaringan enterprise.
+2.	Mengimplementasikan VLAN pada switch Cisco.
+3.	Mengimplementasikan Inter-VLAN Routing.
+4.	Mengonfigurasi routing OSPF.
+5.	Mengonfigurasi DHCP.
+6.	Menguji komunikasi antarjaringan.
+
+1.4 Manfaat
+Project ini diharapkan dapat meningkatkan pemahaman mengenai konfigurasi perangkat jaringan Cisco, segmentasi jaringan, routing dinamis, dan pengelolaan jaringan komputer.
+
+BAB II – LANDASAN TEORI
+
+2.1 Jaringan Komputer
+Jaringan komputer merupakan sistem yang menghubungkan dua atau lebih perangkat agar dapat bertukar informasi dan berbagi sumber daya.
+
+2.2 VLAN
+Virtual Local Area Network (VLAN) adalah teknologi yang memungkinkan satu jaringan fisik dibagi menjadi beberapa jaringan logis.
+
+2.3 Inter-VLAN Routing
+Inter-VLAN Routing merupakan metode untuk menghubungkan beberapa VLAN agar dapat saling berkomunikasi melalui perangkat Layer 3.
+
+2.4 Routing OSPF
+Open Shortest Path First (OSPF) adalah protokol routing dinamis yang menggunakan algoritma Shortest Path First untuk menentukan jalur terbaik.
+
+2.5 DHCP
+Dynamic Host Configuration Protocol (DHCP) merupakan layanan yang memberikan alamat IP secara otomatis kepada perangkat klien.
+
+2.6 Cisco Packet Tracer
+Cisco Packet Tracer merupakan aplikasi simulasi jaringan yang digunakan untuk merancang, mengonfigurasi, dan menguji jaringan komputer.
+
+BAB III – PERANCANGAN JARINGAN
+
+3.1 Gambaran Umum
+Project ini menggunakan studi kasus perusahaan yang memiliki satu kantor pusat dan dua kantor cabang.
+Kantor pusat menggunakan router R1 dan switch SW1. Cabang A menggunakan router R2 dan switch SW2, sedangkan Cabang B menggunakan router R3 dan switch SW3.
+
+3.2 Perangkat yang Digunakan
+1.	Router Cisco 2911 sebanyak 3 unit.
+2.	Switch Cisco 2960 sebanyak 3 unit.
+3.	PC sebanyak 7 unit.
+4.	Server sebanyak 1 unit.
+5.	Kabel jaringan sesuai kebutuhan.
+
+3.3 Perancangan VLAN
+Jaringan dibagi menjadi tujuh VLAN, yaitu:
+•	VLAN 10 untuk Management.
+•	VLAN 20 untuk Finance.
+•	VLAN 30 untuk HRD.
+•	VLAN 40 untuk IT.
+•	VLAN 50 untuk Server.
+•	VLAN 60 untuk Cabang A.
+•	VLAN 70 untuk Cabang B.
+
+3.4 Perancangan IP Address
+Alamat IP menggunakan jaringan kelas privat dengan subnet mask 255.255.255.0 untuk jaringan LAN dan 255.255.255.252 untuk koneksi antarrouter.
+
+3.5 Perancangan Routing
+Routing menggunakan OSPF Area 0 dengan tiga router. R1 menjadi router pusat yang terhubung dengan R2 dan R3.
+
+BAB IV – IMPLEMENTASI DAN PENGUJIAN
+
+4.1 Implementasi Topologi
+Pembuatan topologi dilakukan menggunakan Cisco Packet Tracer dengan menghubungkan tiga router, tiga switch, tujuh PC, dan satu server.
+
+4.2 Implementasi VLAN
+Konfigurasi VLAN dilakukan pada switch untuk memisahkan jaringan berdasarkan divisi perusahaan.
+
+4.3 Implementasi Inter-VLAN Routing
+Inter-VLAN Routing diterapkan menggunakan metode Router-on-a-Stick pada router R1 dengan memanfaatkan subinterface dan protokol IEEE 802.1Q.
+
+4.4 Implementasi DHCP
+DHCP dikonfigurasi pada masing-masing router untuk memberikan alamat IP secara otomatis kepada komputer klien.
+
+4.5 Implementasi OSPF
+Routing OSPF dikonfigurasi pada R1, R2, dan R3 menggunakan Area 0 agar seluruh jaringan dapat saling bertukar informasi routing.
+
+4.6 Pengujian
+Pengujian dilakukan menggunakan perintah ping, ipconfig, show vlan brief, show interfaces trunk, show ip ospf neighbor, dan show ip route.
+
+4.7 Dokumentasi
+Dokumentasi dilakukan dengan mengambil screenshot:
+1.	Topologi jaringan.
+2.	Konfigurasi VLAN.
+3.	Konfigurasi trunk.
+4.	Konfigurasi router.
+5.	Konfigurasi OSPF.
+6.	Hasil DHCP.
+7.	Hasil ping antarjaringan.
+8.	Tabel routing OSPF.
+
+BAB V – PENUTUP
+
+5.1 Kesimpulan
+Berdasarkan hasil perancangan dan simulasi, teknologi VLAN dapat digunakan untuk membagi jaringan perusahaan berdasarkan divisi. Inter-VLAN Routing memungkinkan komunikasi antar-VLAN, sedangkan routing OSPF memungkinkan komunikasi antarrouter secara dinamis.
+DHCP membantu proses pemberian alamat IP secara otomatis sehingga pengelolaan jaringan menjadi lebih mudah.
+Dengan menggunakan Cisco Packet Tracer, perancangan dan pengujian infrastruktur jaringan enterprise dapat dilakukan secara simulasi sebelum diterapkan pada jaringan sebenarnya.
+
+5.2 Saran
+Untuk pengembangan selanjutnya, jaringan dapat ditingkatkan dengan menambahkan firewall, Access Control List (ACL), wireless LAN, dan redundansi jaringan agar infrastruktur menjadi lebih aman dan andal.
+
+DAFTAR PUSTAKA
+1.	Cisco Networking Academy. Introduction to Networks.
+2.	Cisco Systems. Cisco IOS Configuration Fundamentals.
+3.	Cisco Systems. OSPF Configuration Guide.
+4.	Cisco Networking Academy. Switching, Routing, and Wireless Essentials.
+
+
+
+
 
